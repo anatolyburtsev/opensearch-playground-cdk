@@ -2,18 +2,43 @@ from aws_cdk import (
     # Duration,
     Stack,
     # aws_sqs as sqs,
+    aws_ec2 as ec2,
+    aws_opensearchservice as opensearch,
+    CfnOutput,
 )
+from aws_cdk.aws_opensearchservice import (
+    Domain,
+    EngineVersion,
+    EbsOptions,
+    EncryptionAtRestOptions,
+    LoggingOptions,
+)
+
 from constructs import Construct
 
-class CdkOpensearchLambdaPlaygroundStack(Stack):
 
+class CdkOpensearchLambdaPlaygroundStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        # The code that defines your stack goes here
+        domain = Domain(
+            self,
+            "Domain",
+            domain_name="open-search-hello-world",
+            version=EngineVersion.OPENSEARCH_2_5,
+            ebs=EbsOptions(volume_size=20),
+            node_to_node_encryption=True,
+            encryption_at_rest=EncryptionAtRestOptions(enabled=True),
+            logging=LoggingOptions(
+                slow_search_log_enabled=True,
+                app_log_enabled=True,
+                slow_index_log_enabled=True,
+            ),
+        )
 
-        # example resource
-        # queue = sqs.Queue(
-        #     self, "CdkOpensearchLambdaPlaygroundQueue",
-        #     visibility_timeout=Duration.seconds(300),
-        # )
+        CfnOutput(
+            self,
+            "OpenSearch Endpoint",
+            description="OpenSearch Endpoint",
+            value=domain.domain_endpoint,
+        )
