@@ -27,17 +27,18 @@ def get_lines_count(filename):
 if __name__ == "__main__":
     BATCH_SIZE = 50000
     os_url = "search-open-search-hello-world-ptsefi3fh6osw2up7h6mq3ai3a.us-east-1.es.amazonaws.com"
-    os_client = OSClient(os_url)
     index_name = "food-reviews-index"
+    os_client = OSClient(os_url, index_name)
     # dataset is amazon fine food reviews
     # https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews
+    # See doc sample in `doc_sample.json`
     filename = "Reviews.csv"
 
     num_lines = get_lines_count(filename)
     num_batches = math.ceil(num_lines / BATCH_SIZE)
 
-    os_client.delete_index(index_name)
-    os_client.create_index(index_name)
+    os_client.delete_index()
+    os_client.create_index()
 
     start = perf_counter()
     with open(filename, "r") as f:
@@ -45,7 +46,7 @@ if __name__ == "__main__":
         for docs_batch in tqdm(
             split_into_batches(reader, BATCH_SIZE), total=num_batches
         ):
-            response = os_client.upsert_docs(index_name, docs_batch)
+            response = os_client.upsert_docs(docs_batch)
             print(f'Took: {response["took"]}ms, Errors: {response["errors"]}')
 
     end = perf_counter()
