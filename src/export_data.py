@@ -31,7 +31,7 @@ if __name__ == "__main__":
     os_client = OSClient(os_url, index_name)
     # dataset is amazon fine food reviews
     # https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews
-    # See doc sample in `doc_sample.json`
+    # See doc sample in `assets/doc_sample.json`
     filename = "Reviews.csv"
 
     num_lines = get_lines_count(filename)

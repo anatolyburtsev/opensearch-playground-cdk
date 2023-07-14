@@ -1,0 +1,49 @@
+number of docs to search: 100
+Multiple search. time: 1.18 secs
+num_threads = 100, time: 1.73 secs
+num_threads = 50, time: 0.71 secs
+num_threads = 25, time: 0.83 secs
+num_threads = 12, time: 1.03 secs
+num_threads = 06, time: 1.77 secs
+num_threads = 03, time: 3.56 secs
+num_threads = 01, time: 10.04 secs
+
+number of docs to search: 1000
+Multiple search. time: 3.41 secs
+num_threads = 100, time: 3.49 secs
+num_threads = 50, time: 5.03 secs
+num_threads = 25, time: 6.59 secs
+num_threads = 12, time: 14.87 secs
+num_threads = 06, time: 18.25 secs
+num_threads = 03, time: 36.99 secs
+num_threads = 01, time: 105.29 secs
+
+number of docs to search: 3000
+Multiple search. time: 9.37 secs
+num_threads = 100, time: 14.06 secs
+num_threads = 50, time: 15.24 secs
+num_threads = 25, time: 19.37 secs
+num_threads = 12, time: 30.30 secs
+num_threads = 06, time: 57.78 secs
+num_threads = 03, time: 109.32 secs
+num_threads = 01, time: 315.59 secs
+
+number of docs to search: 5000
+Multiple search. time: 6.17 secs
+num_threads = 100, time: 22.03 secs
+num_threads = 50, time: 22.62 secs
+num_threads = 25, time: 28.31 secs
+num_threads = 12, time: 50.56 secs
+num_threads = 06, time: 89.42 secs
+num_threads = 03, time: 170.82 secs
+num_threads = 01, time: 506.36 secs
+
+number of docs to search: 10000
+Multiple search. time: 15.59 secs
+num_threads = 100, time: 40.36 secs
+num_threads = 50, time: 57.31 secs
+num_threads = 25, time: 64.63 secs
+num_threads = 12, time: 105.58 secs
+num_threads = 06, time: 181.62 secs
+num_threads = 03, time: 323.91 secs
+num_threads = 01, time: 1010.07 secs

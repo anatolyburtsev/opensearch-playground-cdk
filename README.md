@@ -1,58 +1,74 @@
+# Description
+Repository is created to benchmark multithread search queries vs batch one for OpenSearch cluster.
 
-# Welcome to your CDK Python project!
+**Spoiler**: Batch is much-much faster, use it.
 
-This is a blank project for CDK development with Python.
+### Experiment description
+OpenSearch cluster has one index with big dataset described below.
+Generate list of unique random ids and get corresponding documents using [Multisearch](https://opensearch.org/docs/latest/api-reference/multi-search/) 
+and regular [Search](https://opensearch.org/docs/latest/api-reference/search/) in multiple threads. Number of threads I tried are:
+1, 3, 6, 12, 25, 50, 100. Same list of randomly generated document ids was used.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+I run several experiments for different numbers of documents to find: 100, 1000, 3000, 5000, 10000. MultiSearch was always faster. 
+The bigger was the number of experiments, the bigger gain MultiSearch has.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
 
-To manually create a virtualenv on MacOS and Linux:
 
+Note: Get operation would be faster than Query by id. Query is used intentionally to close recreate real use-case.
+
+
+### Infrastructure description 
 ```
-$ python3 -m venv .venv
-```
-
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
-
-```
-$ source .venv/bin/activate
-```
-
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .venv\Scripts\activate.bat
+Cloud: AWS
+OpenSearch v2.5, 
+Instance: r5.large.search
+Number of nodes: 1 
+EBS: gp2, 20Gb
 ```
 
-Once the virtualenv is activated, you can install the required dependencies.
+### Dataset description
+Amazon Fine Food Reviews from Kaggle. [Link](https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews)
 
+568,454 reviews, ~300Mb in csv
+
+[Sample review](./assets/doc_sample.json)
+
+Uploaded them to OpenSearch using [./src/export_data.py](./src/export_data.py) script
+
+![os-searchable-doc-screenshot.png](assets%2Fos-searchable-doc-screenshot.png)
+
+## Local development
+### Prerequisites
+- [python 3.11](https://www.python.org/downloads/)
+- [poetry](https://python-poetry.org/docs/) - modern python dependencies manager.
+- [Pycharm](https://www.jetbrains.com/help/pycharm/installation-guide.html) Jetbrain’s IDE for python
+- [BlackConnect plugin](https://plugins.jetbrains.com/plugin/14321-blackconnect) - plugin for Pycharm to auto-reformat code
+- [Ruff plugin](https://plugins.jetbrains.com/plugin/20574-ruff) - plugin for Pycharm to help with code quality
+ 
+### Install dependencies
+```shell
+poetry install
 ```
-$ pip install -r requirements.txt
+### Activate environment (Optional)
+```shell
+poetry shell
+```
+### Install pre-commit hooks
+```shell
+poetry run pre-commit install
+```
+### Add new python dependency
+```shell
+poetry add new-package-name
 ```
 
-At this point you can now synthesize the CloudFormation template for this code.
-
+## Deploy to AWS account
+0. Prepare AWS credentials
+1. Deploy. Run from root folder
+ ```
+ cdk deploy
+ ```
+### Run pre-commit hooks manually
+```shell
+pre-commit run --all-files
 ```
-$ cdk synth
-```
-
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
-
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
-
-Enjoy!
