@@ -13,6 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install CDK
+      run: npm install -g aws-cdk
+
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
@@ -30,5 +38,4 @@ jobs:
       run: poetry run ruff .
 
     - name: CDK synth
-      run: |
-        poetry run cdk synth
+      run: poetry run cdk synth
