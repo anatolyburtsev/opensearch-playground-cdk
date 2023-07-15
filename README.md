@@ -1,55 +1,40 @@
-# Description
-Repository is created to benchmark multithread search queries vs batch one for OpenSearch cluster.
+# Repository Description
+This repository contains a comparative benchmark analysis between multithreaded search queries and batch searches on an OpenSearch cluster. As our experiments show, batch searches are considerably more efficient. We recommend implementing them for faster results.
 
-**Spoiler**: Batch is much-much faster, use it.
+### The Experiment
+For our OpenSearch cluster, we used a substantial dataset detailed below. Our experiment involved generating a list of unique random ids and fetching corresponding documents using both [Multisearch](https://opensearch.org/docs/latest/api-reference/multi-search/) and regular [Search](https://opensearch.org/docs/latest/api-reference/search/) operations, carried out in multiple threads. We conducted our tests using 1, 3, 6, 12, 25, 50, and 100 threads, ensuring the same list of randomly generated document ids was used across all tests.
 
-### Experiment description
-OpenSearch cluster has one index with big dataset described below.
-Generate list of unique random ids and get corresponding documents using [Multisearch](https://opensearch.org/docs/latest/api-reference/multi-search/)
-and regular [Search](https://opensearch.org/docs/latest/api-reference/search/) in multiple threads. Number of threads I tried are:
-1, 3, 6, 12, 25, 50, 100. Same list of randomly generated document ids was used.
+The number of documents searched varied, including: 100, 1000, 3000, 5000, 10000. In each instance, MultiSearch outperformed the regular Search. Furthermore, we noticed a trend: the larger the number of documents, the greater the performance gap favoring MultiSearch.
 
-I run several experiments for different numbers of documents to find: 100, 1000, 3000, 5000, 10000. MultiSearch was always faster.
-The bigger was the number of experiments, the bigger gain MultiSearch has.
+Please note: We used Query by id instead of a Get operation intentionally. This was to mirror a realistic use-case scenario, although a Get operation would typically be faster.
 
-
-
-Note: Get operation would be faster than Query by id. Query is used intentionally to close recreate real use-case.
-
-
-### Infrastructure description
+### Infrastructure
+The OpenSearch cluster was hosted on AWS using the following specifications:
 ```
-Cloud: AWS
-OpenSearch v2.5,
-Instance: r5.large.search
-Number of nodes: 1
-EBS: gp2, 20Gb
+- OpenSearch v2.5
+- Instance: r5.large.search
+- Number of nodes: 1
+- EBS: gp2, 20Gb
 ```
 
-### Dataset description
-Amazon Fine Food Reviews from Kaggle. [Link](https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews)
-
-568,454 reviews, ~300Mb in csv
-
-[Sample review](./assets/doc_sample.json)
-
-Uploaded them to OpenSearch using [./src/export_data.py](./src/export_data.py) script
-
-![os-searchable-doc-screenshot.png](assets%2Fos-searchable-doc-screenshot.png)
+### Dataset
+Our dataset was the 'Amazon Fine Food Reviews' from Kaggle [Link](https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews). This dataset consists of 568,454 reviews, approximately 300Mb in a CSV file.
+We uploaded the reviews to OpenSearch using the [./src/export_data.py](./src/export_data.py) script. A sample review can be found [here](./assets/doc_sample.json).
 
 ## Local development
 ### Prerequisites
 - [python 3.11](https://www.python.org/downloads/)
-- [poetry](https://python-poetry.org/docs/) - modern python dependencies manager.
-- [Pycharm](https://www.jetbrains.com/help/pycharm/installation-guide.html) Jetbrain’s IDE for python
-- [BlackConnect plugin](https://plugins.jetbrains.com/plugin/14321-blackconnect) - plugin for Pycharm to auto-reformat code
-- [Ruff plugin](https://plugins.jetbrains.com/plugin/20574-ruff) - plugin for Pycharm to help with code quality
+- [poetry](https://python-poetry.org/docs/) (python dependencies manager).
+- [Pycharm](https://www.jetbrains.com/help/pycharm/installation-guide.html) (Python IDE)
+- [BlackConnect plugin](https://plugins.jetbrains.com/plugin/14321-blackconnect) (for auto-reformatting code in PyCharm)
+- [Ruff plugin](https://plugins.jetbrains.com/plugin/20574-ruff) (for code quality assistance in PyCharm)
 
+## Setup
 ### Install dependencies
 ```shell
 poetry install
 ```
-### Activate environment (Optional)
+### (Optional) Activate environment
 ```shell
 poetry shell
 ```
@@ -62,13 +47,14 @@ poetry run pre-commit install
 poetry add new-package-name
 ```
 
-## Deploy to AWS account
+## Deployment to AWS account
 0. Prepare AWS credentials
-1. Deploy. Run from root folder
+1. To deploy from root folder, use:
  ```
  cdk deploy
  ```
 ### Run pre-commit hooks manually
+To execute pre-commit hooks manually:
 ```shell
 pre-commit run --all-files
 ```
