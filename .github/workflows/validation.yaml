@@ -23,6 +23,12 @@ jobs:
         python -m pip install poetry
         poetry install
 
+    - name: Code style check
+      run: poetry run black . --check
+
+    - name: Code quality check
+      run: poetry run ruff .
+
     - name: CDK synth
       run: |
         poetry run cdk synth
