@@ -1,9 +1,5 @@
 from aws_cdk import (
-    # Duration,
     Stack,
-    # aws_sqs as sqs,
-    aws_ec2 as ec2,
-    aws_opensearchservice as opensearch,
     CfnOutput,
 )
 from aws_cdk.aws_opensearchservice import (

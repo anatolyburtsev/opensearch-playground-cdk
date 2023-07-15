@@ -1,5 +1,3 @@
-import json
-
 from src.OpenSearchClient import OSClient
 import random
 from timeit import default_timer as timer
@@ -19,13 +17,13 @@ def measure_time(number_of_docs):
     doc_ids = generate_unique_randoms(number_of_docs, 500000)
 
     start = timer()
-    response = os_client.search_multiple_docs_in_bulk(doc_ids)
+    os_client.search_multiple_docs_in_bulk(doc_ids)
     end = timer()
     print(f"Multiple search. time: {end - start:.2f} secs")
 
     for i in [100, 50, 25, 12, 6, 3, 1]:
         start = timer()
-        docs = os_client.search_multiple_docs(doc_ids, i)
+        os_client.search_multiple_docs(doc_ids, i)
         end = timer()
         print(f"num_threads = {i:02d}, time: {end - start:.2f} secs")
 
