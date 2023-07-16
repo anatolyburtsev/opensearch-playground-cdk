@@ -8,6 +8,20 @@ The number of documents searched varied, including: 100, 1000, 3000, 5000, 10000
 
 Please note: We used Query by id instead of a Get operation intentionally. This was to mirror a realistic use-case scenario, although a Get operation would typically be faster.
 
+![diagram.png](assets%2Fdiagram.png)
+
+### Results
+
+| Number of Docs to Search | Multisearch Time (secs) | 100 Threads Time (secs) | 50 Threads Time (secs) | 25 Threads Time (secs) | 12 Threads Time (secs) | 6 Threads Time (secs) | 3 Threads Time (secs) | 1 Thread Time (secs) |
+|--------------------------|-------------------------|-------------------------|------------------------|------------------------|------------------------|-----------------------|-----------------------|---------------------|
+| 100                      | 1.18                    | 1.73                    | 0.71                   | 0.83                   | 1.03                   | 1.77                  | 3.56                  | 10.04               |
+| 1000                     | 3.41                    | 3.49                    | 5.03                   | 6.59                   | 14.87                  | 18.25                 | 36.99                 | 105.29              |
+| 3000                     | 9.37                    | 14.06                   | 15.24                  | 19.37                  | 30.3                   | 57.78                 | 109.32                | 315.59              |
+| 5000                     | 6.17                    | 22.03                   | 22.62                  | 28.31                  | 50.56                  | 89.42                 | 170.82                | 506.36              |
+| 10000                    | 15.59                   | 40.36                   | 57.31                  | 64.63                  | 105.58                 | 181.62                | 323.91                | 1010.07             |
+
+The benchmarking experiment shows a clear advantage for Multisearch over single-threaded and multi-threaded searches in OpenSearch clusters, particularly as the document count increases. Even against 100 threads, Multisearch performed significantly faster across all tests, ranging from 100 to 10,000 documents. These findings highlight Multisearch as a superior search method, providing considerable efficiency benefits when handling large datasets.
+
 ### Infrastructure
 The OpenSearch cluster was hosted on AWS using the following specifications:
 ```
