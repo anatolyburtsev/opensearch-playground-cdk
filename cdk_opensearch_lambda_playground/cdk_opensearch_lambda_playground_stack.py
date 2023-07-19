@@ -1,15 +1,11 @@
-from aws_cdk import (
-    Stack,
-    CfnOutput,
-)
+from aws_cdk import CfnOutput, Stack
 from aws_cdk.aws_opensearchservice import (
     Domain,
-    EngineVersion,
     EbsOptions,
     EncryptionAtRestOptions,
+    EngineVersion,
     LoggingOptions,
 )
-
 from constructs import Construct
 
 

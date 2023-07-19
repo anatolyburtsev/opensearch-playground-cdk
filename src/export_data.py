@@ -1,8 +1,7 @@
 import csv
-from tqdm import tqdm
 import math
+from tqdm import tqdm
 from time import perf_counter
-
 from src.OpenSearchClient import OSClient
 
 

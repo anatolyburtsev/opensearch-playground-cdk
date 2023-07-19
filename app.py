@@ -6,7 +6,6 @@ from cdk_opensearch_lambda_playground.cdk_opensearch_lambda_playground_stack imp
     CdkOpensearchLambdaPlaygroundStack,
 )
 
-
 app = cdk.App()
 CdkOpensearchLambdaPlaygroundStack(
     app,

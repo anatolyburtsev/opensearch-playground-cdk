@@ -1,9 +1,9 @@
+import concurrent.futures
 import json
+from itertools import chain
 
 import boto3
 from opensearchpy import AWSV4SignerAuth, OpenSearch, RequestsHttpConnection
-import concurrent.futures
-from itertools import chain
 
 
 class OSClient:

@@ -1,6 +1,7 @@
-from src.OpenSearchClient import OSClient
 import random
 from timeit import default_timer as timer
+
+from src.OpenSearchClient import OSClient
 
 
 def generate_unique_randoms(num_unique, range_max):
